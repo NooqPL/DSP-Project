@@ -46,6 +46,7 @@ figure
 imshow(test_image)
 %%
 load Lego_EffNet;
+
 %%
 
 %for photo_nr=1:1
