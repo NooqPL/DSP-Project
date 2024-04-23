@@ -71,6 +71,6 @@ subplot(1,2,2);
 imshow(lego1);
 
     %%imshow(lego1)
-   %% title(classify(Lego_EffNet,lego1))
+   title(classify(Lego_EffNet,lego1))
 %end
 
