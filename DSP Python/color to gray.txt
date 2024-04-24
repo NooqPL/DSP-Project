@@ -1,0 +1,7 @@
+import cv2
+
+photo_path_gray = "K:/LEGOs/Bricks/gray2.png"
+image = cv2.imread("K:/LEGOs/Bricks/Yellow_Brick/yellow_100.png")
+grayscale = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+cv2.imwrite(photo_path_gray, grayscale)
+print("done")
