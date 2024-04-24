@@ -1,0 +1,10 @@
+#load image from the given directory
+
+
+import cv2
+import os
+from PIL import Image
+
+path_photo = "C:/Users/krzys/Desktop/frames/frame1.png"
+
+image_png = Image.open(path_photo)
