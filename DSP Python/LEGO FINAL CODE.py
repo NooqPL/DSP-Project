@@ -412,7 +412,7 @@ brick_path = test_photo_normal
 
 
 
-fig = plt.figure()
+# fig = cv2.figure()
 
 
 
@@ -443,10 +443,10 @@ while(1):
     score_Brick = predictions_Brick[0]
 
 
-    fig.add_subplot(2, 2, 1)   
-    plt.imshow(test_photo_normal) 
-    plt.axis('off') 
-    plt.title("CAM View") 
+#     fig.add_subplot(2, 2, 1)   
+#     cv2.imshow(img_Brick) 
+# #     plt.axis('off') 
+#     cv2.title("CAM View") 
 
     # Print prediction result for color
     print(
@@ -459,16 +459,19 @@ while(1):
     
     
     
+    
+    
+    
     image_gray = cv2.imread(test_photo_normal) #load frame from the same test_photo_normal path in cv2 format
     grayscale = cv2.cvtColor(image_gray, cv2.COLOR_BGR2GRAY) #change into grayscale
     cv2.imwrite(gray_path_save, grayscale) #save grayscale frame on the gray_path_save path
     print("done changing to gray")
 
 
-    fig.add_subplot(2, 2, 2)   
-    plt.imshow(gray_path_save) 
-    plt.axis('off') 
-    plt.title("Cam Pic to Gray")
+#     fig.add_subplot(2, 2, 2)   
+#     cv2.imshow(grayscale) 
+# #     plt.axis('off') 
+#     plt.title("Cam Pic to Gray")
     
     
     
@@ -483,11 +486,73 @@ while(1):
     predictions_Gray = model_Gray_model.predict(img_array_Gray)
     score_Gray = predictions_Gray[0]
 
-    fig.add_subplot(2, 2, 3)  
-    plt.figtext(0, 0, "This image most likely belongs to {} with a {:.2f} percent confidence."
-                .format(class_names_Gray[np.argmax(score_Gray)], 100 * np.max(score_Gray), fontsize = 20))
-    fig.add_subplot(2, 2, 4) 
-    plt.figtext(0, 0, "This image most likely belongs to {} with a {:.2f} percent confidence.%d ".format(class_names_Brick[np.argmax(score_Brick)], 100 * np.max(score_Brick)), fontsize = 20)
+#     fig.add_subplot(2, 2, 3)  
+#     plt.figtext(0, 0, "This image most likely belongs to {} with a {:.2f} percent confidence."
+#                 .format(class_names_Gray[np.argmax(score_Gray)], 100 * np.max(score_Gray), fontsize = 20))
+#     fig.add_subplot(2, 2, 4) 
+#     plt.figtext(0, 0, "This image most likely belongs to {} with a {:.2f} percent confidence.%d ".format(class_names_Brick[np.argmax(score_Brick)], 100 * np.max(score_Brick)), fontsize = 20)
+
+    
+#     im1 = cv2.imread(gray_path_save)
+#     im2 = cv2.imread(test_photo_normal)
+    
+#     twoimages = np.hstack((im1, im2))
+    
+    
+#     cv2.imshow(twoimages)
+        
+    # Window name in which image is displayed 
+    window_name = 'Image'
+
+   
+
+    # font 
+    font = cv2.FONT_HERSHEY_SIMPLEX 
+
+    # org 
+    org = (10, 400) 
+
+    # fontScale 
+    fontScale = 0.5
+
+    # Red color in BGR 
+    color = (0, 0, 0) 
+
+    # Line thickness of 2 px 
+    thickness = 1
+
+   
+    ret, frame = cam.read()
+    rgb = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
+    
+    
+    cv2.putText(frame, 'Brick: {}  with a {:.2f} %'.format(class_names_Gray[np.argmax(score_Gray)], 100 * np.max(score_Gray)), (10,425), font,  
+                   fontScale, color, thickness, cv2.LINE_AA)
+    cv2.putText(frame, 'Brick: {}  with a {:.2f} %'.format(class_names_Brick[np.argmax(score_Brick)], 100 * np.max(score_Brick)), (10,450), font,  
+                   fontScale, color, thickness, cv2.LINE_AA)
+    
+    
+    
+    cv2.imshow("Video", frame)
+    
+    
+    
+    
+    k = cv2.waitKey(1)
+    if k%256 == 27:
+        #ESC pressed
+        print("Escape hit, closing...")
+        break
+    elif k == ord('c'):
+        #c pressed
+        faces = frame[y:y + h, x:x + w]
+    
+    
+        
+
+
+
+
 
 
 
@@ -497,7 +562,9 @@ while(1):
         )
     print(
             "-----------------------------------"
-            
-        )
-
+    )
+   
     time.sleep(0.1)
+cam.release()
+
+cv2.destroyAllWindows()
