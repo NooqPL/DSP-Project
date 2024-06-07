@@ -28,7 +28,7 @@ photo_path_gray = "K:/LEGOs/Bricks/BRICKS_GRAY" # zmienić !!!!!!!!!!!!!!!!!!!!!
 data_dir_Brick = Main_image
 data_dir_Gray = photo_path_gray
 
-batch_size = 32
+batch_size = 32 
 img_height = 224
 img_width = 224
 
@@ -372,7 +372,7 @@ for images_Gray, _ in train_ds_Gray.take(1):
 
 # In[19]:
 
-
+import matplotlib.pyplot as plt
 import tensorflow as tf
 import cv2
 import time
@@ -402,6 +402,18 @@ brick_path = test_photo_normal
 
 
 
+
+fig = plt.figure()
+
+
+
+
+
+
+
+
+
+
 while(1):
     
     result, img_Brick = cam.read() #grab frame from webcam
@@ -416,6 +428,13 @@ while(1):
 
     predictions_Brick = model_Brick_model.predict(img_array_Brick)
     score_Brick = predictions_Brick[0]
+
+
+    fig.add_subplot(2, 2, 1)   
+    plt.imshow(test_photo_normal) 
+    plt.axis('off') 
+    plt.title("CAM View") 
+
 
     print(
         "This image most likely belongs to {} with a {:.2f} percent confidence."
@@ -432,7 +451,11 @@ while(1):
     cv2.imwrite(gray_path_save, grayscale) #save grayscale frame on the gray_path_save path
     print("done changing to gray")
 
-    
+
+    fig.add_subplot(2, 2, 2)   
+    plt.imshow(gray_path_save) 
+    plt.axis('off') 
+    plt.title("Cam Pic to Gray")
     
     
     
@@ -446,6 +469,11 @@ while(1):
 
     predictions_Gray = model_Gray_model.predict(img_array_Gray)
     score_Gray = predictions_Gray[0]
+
+    fig.add_subplot(2, 2, 3)  
+    plt.figtext(0, 0, "Predicted Color of the image :%d",score_Brick, fontsize = 20)
+    fig.add_subplot(2, 2, 4) 
+    plt.figtext(0, 0, "Predicted shape :%d ",score_Gray, fontsize = 20)
 
     print(
         "This image most likely belongs to {} with a {:.2f} percent confidence."
